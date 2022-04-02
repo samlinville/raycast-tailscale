@@ -141,8 +141,6 @@ function DeviceList() {
 }
 
 export default function Command() {
-
-
   return (
     <DeviceList />
   );
