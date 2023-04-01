@@ -48,7 +48,7 @@ function loadUsers(unparsedUsers: string[]) {
   return users;
 }
 
-function UserList() {
+function AccountSwitchList() {
   const [users, setUsers] = useState<User[]>();
   useEffect(() => {
     async function fetch() {
@@ -116,5 +116,5 @@ function UserList() {
 }
 
 export default function Command() {
-  return <UserList />;
+  return <AccountSwitchList />;
 }
