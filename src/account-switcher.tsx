@@ -25,9 +25,10 @@ interface User {
 function loadUsers(unparsedUsers: string[]) {
   const users: User[] = [];
 
-  for (const unparsedUser: string of unparsedUsers) {
+
+  for (const unparsedUser of unparsedUsers as string[]) {
     const unparsedUserList: string[] = unparsedUser.split(" ");
-    let user: User;
+    let user = {} as User;
 
     if (unparsedUserList.length == 2) {
       user = {
@@ -47,7 +48,7 @@ function loadUsers(unparsedUsers: string[]) {
   return users;
 }
 
-function UserList() {
+function AccountSwitchList() {
   const [users, setUsers] = useState<User[]>();
   useEffect(() => {
     async function fetch() {
@@ -66,34 +67,33 @@ function UserList() {
     fetch();
   }, []);
 
+  // Ignoring the type error on Icon.PersonCircle because...I don't know what's
+  // wrong but this is exactly what the Raycast docs say to do...so.
+  // @ts-ignore
+  const activeUserIcon = { source: Icon.PersonCircle, tintColor: Color.Green };
+  // @ts-ignore
+  const inactiveUserIcon = { source: Icon.PersonCircle }
+
+  // return a list of users, starting with all of the inactive users.
+  // output the active user last.
   return (
     <List isLoading={users === undefined}>
-      {users?.map((user) => (
+      {users?.sort((a, b) => +a.active - +b.active).map((user) => (
         <List.Item
           title={user.name}
           key={user.name}
-          icon={
-            user.active
-              ? {
-                  source: {
-                    light: "connected_light.png",
-                    dark: "connected_dark.png",
-                  },
-                  mask: Image.Mask.Circle,
-                }
-              : {
-                  source: {
-                    light: "lastseen_light.png",
-                    dark: "lastseen_dark.png",
-                  },
-                  mask: Image.Mask.Circle,
-                }
-          }
+          icon={user.active ? activeUserIcon : inactiveUserIcon}
+          subtitle={user.active ? "Active user" : ""}
           actions={
             <ActionPanel>
               <Action
                 title="Switch to user"
                 onAction={async () => {
+                  await showToast({
+                    style: Toast.Style.Animated,
+                    title: "Switching user account",
+                    message: `${user.name}`,
+                  })
                   const command = `/Applications/Tailscale.app/Contents/MacOS/Tailscale switch ${user.name}`;
                   console.log(command);
                   popToRoot();
@@ -101,7 +101,7 @@ function UserList() {
                   const ret = execSync(command).toString().trim();
 
                   if (ret.includes("Success") || ret.includes("Already")) {
-                    showHUD(`Tailscale user switched to ${user.name}`);
+                    showHUD(`Active Tailscale user is ${user.name}`);
                   } else {
                     showHUD(`Tailscale user failed to switch to ${user.name}`);
                   }
@@ -116,5 +116,5 @@ function UserList() {
 }
 
 export default function Command() {
-  return <UserList />;
+  return <AccountSwitchList />;
 }
