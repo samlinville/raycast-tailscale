@@ -24,6 +24,20 @@
       "mode": "view"
     },
     {
+      "name": "users",
+      "title": "Switch user",
+      "subtitle": "Tailscale",
+      "description": "View any logged in Tailscale accounts and quickly switch to another one",
+      "mode": "view"
+    },
+    {
+      "name": "exit",
+      "title": "Exit node",
+      "subtitle": "Tailscale",
+      "description": "View any available Exit node in your Tailnet and quickly activate one",
+      "mode": "view"
+    },
+    {
       "name": "admin",
       "title": "Admin Console",
       "subtitle": "Tailscale",

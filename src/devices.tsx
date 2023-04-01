@@ -1,60 +1,7 @@
 import { ActionPanel, Detail, List, Action, useNavigation, Color, Icon, showToast, Toast, Image } from "@raycast/api";
-import { FormValueModel } from "@raycast/api/types/api/internal";
 import React, { useEffect, useState } from "react";
 import { runAppleScript } from "run-applescript";
-
-interface Device {
-  self: boolean;
-  key: number;
-  name: string;
-  dns: string;
-  ipv4: string;
-  ipv6: string;
-  os: string;
-  online: boolean;
-  lastseen: any;
-}
-
-interface LooseObject {
-  [key: string]: any
-}
-
-
-function loadDevices(self: LooseObject, data: LooseObject) {
-  const devices: Device[] = [];
-  let theKey = 0;
-
-  const me = {
-    self: true,
-    key: ++theKey,
-    name: self.DNSName.split('.')[0],
-    dns: self.DNSName,
-    ipv4: self.TailscaleIPs[0],
-    ipv6: self.TailscaleIPs[1],
-    os: self.OS,
-    online: self.Online,
-    lastseen: new Date(self.LastSeen),
-  }
-
-  devices.push(me);
-
-  for (const [key, value] of Object.entries(data)) {
-    const device = {
-      self: false,
-      key: ++theKey, 
-      name: value.DNSName.split('.')[0],
-      dns: value.DNSName,
-      ipv4: value.TailscaleIPs[0],
-      ipv6: value.TailscaleIPs[1],
-      os: (value.OS == 'linux') ? "Linux" : value.OS,
-      online: value.Online,
-      lastseen: new Date(value.LastSeen),
-    }
-    devices.push(device);
-  }
-  console.log(devices);
-  return devices;
-}
+import { Device, LooseObject, loadDevices } from "./shared.tsx";
 
 function DeviceList() {
   const [devices, setDevices] = useState<Device[]>();
@@ -135,7 +82,7 @@ function DeviceList() {
             </ActionPanel>
           }
           />
-      ))}  
+      ))}
     </List>
   );
 }
