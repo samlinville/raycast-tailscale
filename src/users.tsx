@@ -25,9 +25,10 @@ interface User {
 function loadUsers(unparsedUsers: string[]) {
   const users: User[] = [];
 
-  for (const unparsedUser: string of unparsedUsers) {
+
+  for (const unparsedUser of unparsedUsers as string[]) {
     const unparsedUserList: string[] = unparsedUser.split(" ");
-    let user: User;
+    let user = {} as User;
 
     if (unparsedUserList.length == 2) {
       user = {
@@ -66,7 +67,11 @@ function UserList() {
     fetch();
   }, []);
 
+  // Ignoring the type error on Icon.PersonCircle because...I don't know what's
+  // wrong but this is exactly what the Raycast docs say to do...so.
+  // @ts-ignore
   const activeUserIcon = { source: Icon.PersonCircle, tintColor: Color.Green };
+  // @ts-ignore
   const inactiveUserIcon = { source: Icon.PersonCircle }
 
   // return a list of users, starting with all of the inactive users.

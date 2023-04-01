@@ -25,9 +25,9 @@
     },
     {
       "name": "users",
-      "title": "Switch user",
+      "title": "Switch account",
       "subtitle": "Tailscale",
-      "description": "View any logged in Tailscale accounts and quickly switch to another one",
+      "description": "View logged-in Tailscale accounts and quickly switch between them",
       "mode": "view"
     },
     {
