@@ -2,6 +2,7 @@ export interface Device {
   self: boolean;
   key: number;
   name: string;
+  userid: string;
   dns: string;
   ipv4: string;
   ipv6: string;
@@ -25,6 +26,7 @@ export function loadDevices(self: LooseObject, data: LooseObject) {
     self: true,
     key: ++theKey,
     name: self.DNSName.split('.')[0],
+    userid: self.UserID,
     dns: self.DNSName,
     ipv4: self.TailscaleIPs[0],
     ipv6: self.TailscaleIPs[1],
@@ -42,6 +44,7 @@ export function loadDevices(self: LooseObject, data: LooseObject) {
       self: false,
       key: ++theKey,
       name: value.DNSName.split('.')[0],
+      userid: value.UserID,
       dns: value.DNSName,
       ipv4: value.TailscaleIPs[0],
       ipv6: value.TailscaleIPs[1],

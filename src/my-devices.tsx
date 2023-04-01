@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { execSync } from "child_process";
 import { Device, LooseObject, loadDevices } from "./shared.tsx";
 
-function DeviceList() {
+function MyDeviceList() {
   const [devices, setDevices] = useState<Device[]>();
   useEffect(() => {
     async function fetch() {
@@ -14,9 +14,11 @@ function DeviceList() {
         if (!data.Self.Online) {
           throw 'Tailscale not connected';
         }
-
+        const me: string = data.Self.UserID;
         const _list = loadDevices(data.Self, data.Peer);
-        setDevices(_list);
+        console.log(_list);
+        const _mylist = _list.filter(device => device.userid === me);
+        setDevices(_mylist);
       } catch (error) {
         showToast(Toast.Style.Failure, "Couldn't load devices. Make sure Tailscale is connected.");
       }
@@ -94,6 +96,6 @@ function DeviceList() {
 
 export default function Command() {
   return (
-    <DeviceList />
+    <MyDeviceList />
   );
 }

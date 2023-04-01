@@ -18,9 +18,16 @@
   "commands": [
     {
       "name": "devices",
-      "title": "Network Devices",
+      "title": "All devices",
       "subtitle": "Tailscale",
-      "description": "View any device connected to your Tailnet and quickly copy an address to your clipboard",
+      "description": "View a list of every device in the tailnet",
+      "mode": "view"
+    },
+    {
+      "name": "my-devices",
+      "title": "My devices",
+      "subtitle": "Tailscale",
+      "description": "View a list of your own devices",
       "mode": "view"
     },
     {
@@ -39,7 +46,7 @@
     },
     {
       "name": "admin",
-      "title": "Admin Console",
+      "title": "Admin console",
       "subtitle": "Tailscale",
       "description": "Open the Tailscale Admin Console",
       "mode": "view"
